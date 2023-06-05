@@ -61,6 +61,15 @@ def main(args=None):
         )
     )
     parser.add_argument(
+        "--cookie-directory",
+        action="store",
+        dest="cookie_directory",
+        default="~/.pyicloud",
+        help=(
+            "Directory to store cookies for authentication"
+        )
+    )
+    parser.add_argument(
         "-n",
         "--non-interactive",
         action="store_false",
@@ -184,6 +193,7 @@ def main(args=None):
 
     username = command_line.username
     password = command_line.password
+    cookies  = command_line.cookie_directory
     domain   = command_line.domain
 
     if username and command_line.delete_from_keyring:
@@ -209,7 +219,8 @@ def main(args=None):
             api = pyicloud_ipd.PyiCloudService(
                 domain,
                 username.strip(),
-                password.strip()
+                password.strip(),
+                cookies.strip()
             )
             if (
                 not utils.password_exists_in_keyring(username) and
